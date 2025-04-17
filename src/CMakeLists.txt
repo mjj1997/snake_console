@@ -3,21 +3,10 @@ include_guard(GLOBAL)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SRCS
-    src.cpp
+    main.cpp
 )
 
-message(STATUS "libs ${LIBS}")
+add_executable(${PROJECT_NAME} ${SRCS})
+target_link_libraries(${PROJECT_NAME} PRIVATE
+)
 
-if(BUILD_ROOT_SHARED_LIBS)
-    add_library(${PROJECT_NAME}_shared SHARED ${SRCS})
-    target_link_libraries(${PROJECT_NAME}_shared PRIVATE
-        ${LIBS}
-    )
-endif()
-
-if(BUILD_ROOT_STATIC_LIBS)
-    add_library(${PROJECT_NAME}_static STATIC ${SRCS})
-    target_link_libraries(${PROJECT_NAME}_static PRIVATE
-        ${LIBS}
-    )
-endif()

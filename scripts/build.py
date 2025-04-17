@@ -18,9 +18,6 @@ def build(system, args=None):
     if args.test:
         build_cmd += " -DBUILD_TESTS=ON"
 
-    if args.example:
-        build_cmd += " -DBUILD_EXAMPLES=ON"
-
     print("build cmd:" + build_cmd)
 
     ret = os.system(build_cmd)
@@ -43,9 +40,6 @@ def main():
     parser = argparse.ArgumentParser(description="build project")
     parser.add_argument(
         "--test", action="store_true", default=False, help="build unit tests"
-    )
-    parser.add_argument(
-        "--example", action="store_true", default=False, help="build examples"
     )
     # parser.add_argument(
     #     "--debug", action="store_true", default=False, help="debug configuration"
