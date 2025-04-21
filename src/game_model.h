@@ -18,6 +18,9 @@ public:
     // 计算蛇的头要去的新坐标
     std::pair<int, int> getNextPosition(int rowStep, int colStep) const;
 
+    //撞到墙壁或者蛇自己的身体就结束游戏
+    bool isGameOver(int go_to_row, int go_to_col) const;
+
 private:
     char getPlayBoardCell(int row, int col) const;
     void setPlayBoardCell(int row, int col, char value);

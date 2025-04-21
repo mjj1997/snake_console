@@ -40,6 +40,18 @@ pair<int, int> GameModel::getNextPosition(int rowStep, int colStep) const
     return make_pair(currentHeadRow + rowStep, currentHeadCol + colStep);
 }
 
+//判断游戏是否已经结束了
+bool GameModel::isGameOver(int goToRow, int goToCol) const
+{
+    // goToRow goToCol 是蛇的头打算要去的目的地
+    // 这个目的地会导致gomeover
+    // 比如超出了游戏界面（下标越界）
+    // 比如撞到了蛇的身体
+
+    return (goToRow < 0 || goToRow >= getRow() || goToCol < 0 || goToCol >= getCol()
+            || getPlayBoardCell(goToRow, goToCol) == static_cast<char>(PlayBoardCell::SnakeBody));
+}
+
 char GameModel::getPlayBoardCell(int row, int col) const
 {
     return m_playBoard.at(row).at(col);
