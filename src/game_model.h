@@ -15,6 +15,9 @@ public:
     void addRow(const std::vector<char>& row);
 
     void move(const std::pair<int, int>& nextPosition);
+    // 计算蛇的头要去的新坐标
+    std::pair<int, int> getNextPosition(int rowStep, int colStep) const;
+
 private:
     char getPlayBoardCell(int row, int col) const;
     void setPlayBoardCell(int row, int col, char value);
