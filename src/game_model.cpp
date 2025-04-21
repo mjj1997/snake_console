@@ -10,3 +10,8 @@ size_t GameModel::getCol() const
     return m_playBoard.at(0).size();
 }
 
+void GameModel::addRow(const vector<char>& row)
+{
+    m_playBoard.push_back(row);
+}
+
