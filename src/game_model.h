@@ -20,6 +20,8 @@ public:
 
     void eatFood(const std::pair<int, int>& nextPosition);
     void move(const std::pair<int, int>& nextPosition);
+    void increaseBody(const std::pair<int, int>& nextPosition);
+    const std::list<std::pair<int, int>>& getSnakeBody() const;
     // 计算蛇的头要去的新坐标
     std::pair<int, int> getNextPosition(int rowStep, int colStep) const;
 
