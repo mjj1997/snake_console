@@ -49,6 +49,15 @@ bool GameModel::canPutFoodAt(int row, int col)
     }
 }
 
+void GameModel::eatFood(const pair<int, int>& nextPosition)
+{
+    setPlayBoardCell(nextPosition.first,
+                     nextPosition.second,
+                     static_cast<char>(PlayBoardCell::SnakeBody));
+
+    m_snakeBody.push_front(nextPosition);
+}
+
 void GameModel::move(const pair<int, int>& nextPosition)
 {
     auto tail{ m_snakeBody.back() };
