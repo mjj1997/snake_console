@@ -1,5 +1,10 @@
 #include "game_controller.h"
 
+#include <cctype>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
 using namespace std;
 
 bool GameController::loadPlayDataFromFile(ifstream& fin)
@@ -36,3 +41,48 @@ bool GameController::loadPlayDataFromFile(ifstream& fin)
     return true;
 }
 
+bool GameController::goAhead(char direction)
+{
+    int rowStep{ 0 };
+    int colStep{ 0 };
+
+    switch (toupper(direction)) {
+    case 'W':
+        rowStep = -1;
+        break;
+    case 'A':
+        rowStep = +1;
+        break;
+    case 'D':
+        colStep = +1;
+        break;
+    case 'S':
+        colStep = -1;
+        break;
+    default:
+        return true;
+    }
+
+    return goAhead(rowStep, colStep);
+}
+
+bool GameController::goAhead(int rowStep, int columnStep)
+{
+    auto nextPosition = m_model.getNextPosition(rowStep, columnStep);
+    // 首先判断游戏是否已经结束
+    if (m_model.isGameOver(nextPosition.first, nextPosition.second)) {
+        return false;
+    }
+    // 判断nextPosition 处是否有食物
+    // 如果有食物，就吃掉这个食物并生成一个新的食物
+    if (m_model.existFood(nextPosition.first, nextPosition.second)) {
+        m_model.eatFood(nextPosition);
+        m_model.createFood();
+
+    } else {
+        // 如果 nextPosition 处没有食物，就移动蛇的身体
+        m_model.move(nextPosition);
+    }
+
+    return true;
+}
