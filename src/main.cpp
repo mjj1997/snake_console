@@ -4,13 +4,13 @@
 
 using namespace std;
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
     //创建游戏对象
     GameView snake;
     //读取文本文件，加载游戏数据
     if (!snake.loadPlayDataFromFile("data/map.txt")) {
-        cout << "loadPlayDataFromFile data.txt failed!" << endl;
+        cout << "loadPlayDataFromFile map.txt failed!" << endl;
         return 1;
     }
 

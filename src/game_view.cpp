@@ -6,11 +6,11 @@
 
 using namespace std;
 
-bool GameView::loadPlayDataFromFile(const std::string& fileName)
+bool GameView::loadPlayDataFromFile(const string& fileName)
 {
-    std::ifstream fin{ fileName };
+    ifstream fin{ fileName };
     if (!fin) {
-        std::cout << "can not open file " << fileName << std::endl;
+        cout << "can not open file " << fileName << endl;
         return false;
     }
 
@@ -25,17 +25,17 @@ void GameView::play()
         //输出游戏界面：棋盘
         printGame();
 
-        std::cout << "direction: W(up) A(left) S(down) D(right)\n"
-                  << "$: food\n"
-                  << "@: snake head\n"
-                  << "#: snake tail\n";
+        cout << "direction: W(up) A(left) S(down) D(right)\n"
+             << "$: food\n"
+             << "@: snake head\n"
+             << "#: snake tail\n";
 
         //输入一个方向，表示蛇要往这个方向前进一步
         char direction;
-        std::cin >> direction;
+        cin >> direction;
         //往前走一步，如果判断无法往前走到用户指定的位置，就退出程序（比如，蛇咬到了自己、撞到了墙壁）
         if (!m_controller.goAhead(direction)) {
-            std::cout << "Game Over!" << std::endl;
+            cout << "Game Over!" << endl;
             break;
         }
     }
@@ -43,15 +43,13 @@ void GameView::play()
 
 void GameView::printGame() const
 {
-    // m_controller.m_model.showBoardForTest(std::cout);
-
     auto board{ m_controller.getPlayBoard() };
-    auto head{ m_controller.getSnakeHead() };
     auto body{ m_controller.getSnakeBody() };
+    auto head{ body.front() };
 
     for (size_t row{ 0 }; row < board.size(); ++row) {
         for (size_t col{ 0 }; col < board.at(row).size(); ++col) {
-            auto element = board.at(row).at(col);
+            auto element{ board.at(row).at(col) };
 
             if (row == head.first && col == head.second) {
                 cout << "@" << " ";

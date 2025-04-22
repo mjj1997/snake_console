@@ -9,31 +9,31 @@ using namespace std;
 
 bool GameController::loadPlayDataFromFile(ifstream& fin)
 {
-    std::string line;
-    std::getline(fin, line);
-    std::istringstream iss{ line };
+    string line;
+    getline(fin, line);
+    istringstream iss{ line };
 
     int rows{};
     int cols{};
     iss >> rows >> cols;
 
     for (int row{ 0 }; row < rows; ++row) {
-        std::getline(fin, line);
-        std::istringstream lineDataIss{ line };
+        getline(fin, line);
+        istringstream lineDataIss{ line };
 
-        std::vector<char> lineData;
+        vector<char> lineData;
         char ch;
         while (lineDataIss >> ch) {
             lineData.push_back(ch);
             if (ch == static_cast<char>(PlayBoardCell::SnakeBody)) {
-                m_model.increaseBody(make_pair(row, lineData.size() - 1));
+                m_model.increaseSnakeBody(make_pair(row, lineData.size() - 1));
             }
         }
 
-        m_model.addRow(lineData);
+        m_model.appendToPlayBoard(lineData);
     }
 
-    if (m_model.getSnakeBody().empty()) {
+    if (getSnakeBody().empty()) {
         cout << "snake body is empty! init game failed." << endl;
         return false;
     }
@@ -68,7 +68,7 @@ bool GameController::goAhead(char direction)
 
 bool GameController::goAhead(int rowStep, int columnStep)
 {
-    auto nextPosition = m_model.getNextPosition(rowStep, columnStep);
+    auto nextPosition{ m_model.getNextPosition(rowStep, columnStep) };
     // 首先判断游戏是否已经结束
     if (m_model.isGameOver(nextPosition.first, nextPosition.second)) {
         return false;
@@ -78,10 +78,9 @@ bool GameController::goAhead(int rowStep, int columnStep)
     if (m_model.existFood(nextPosition.first, nextPosition.second)) {
         m_model.eatFood(nextPosition);
         m_model.createFood();
-
     } else {
         // 如果 nextPosition 处没有食物，就移动蛇的身体
-        m_model.move(nextPosition);
+        m_model.moveTo(nextPosition);
     }
 
     return true;
@@ -89,15 +88,10 @@ bool GameController::goAhead(int rowStep, int columnStep)
 
 const vector<vector<char>>& GameController::getPlayBoard() const
 {
-    return m_model.getPlayBoard();
-}
-
-const pair<int, int>& GameController::getSnakeHead() const
-{
-    return m_model.getSnakeHead();
+    return m_model.playBoard();
 }
 
 const list<pair<int, int>>& GameController::getSnakeBody() const
 {
-    return m_model.getSnakeBody();
+    return m_model.snakeBody();
 }

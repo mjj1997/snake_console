@@ -5,79 +5,22 @@
 
 using namespace std;
 
-size_t GameModel::getRow() const
+const vector<vector<char>>& GameModel::playBoard() const
 {
-    return m_playBoard.size();
+    return m_playBoard;
 }
 
-size_t GameModel::getCol() const
-{
-    return m_playBoard.at(0).size();
-}
-
-void GameModel::addRow(const vector<char>& row)
+void GameModel::appendToPlayBoard(const vector<char>& row)
 {
     m_playBoard.push_back(row);
 }
 
-void GameModel::createFood()
+const list<pair<int, int>>& GameModel::snakeBody() const
 {
-    // 生成一个新的食物给蛇来吃
-    // 随机生成一个新的位置，但是这个位置可能已经是蛇的身体了
-    // 所以，需要用一个循环不断的重复在一个新生成的随机位置放置食物
-    // 直到放置成功为止
-    default_random_engine gen(chrono::system_clock::now().time_since_epoch().count());
-    uniform_int_distribution<int> rowDist(0, getRow() - 1);
-    uniform_int_distribution<int> colDist(0, getCol() - 1);
-
-    while (true) {
-        int row{ rowDist(gen) };
-        int col{ colDist(gen) };
-
-        if (canPutFoodAt(row, col))
-            break;
-    }
+    return m_snakeBody;
 }
 
-bool GameModel::canPutFoodAt(int row, int col)
-{
-    if (getPlayBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
-        setPlayBoardCell(row, col, static_cast<char>(PlayBoardCell::Food));
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool GameModel::existFood(int row, int col) const
-{
-    return getPlayBoardCell(row, col) == static_cast<char>(PlayBoardCell::Food);
-}
-
-void GameModel::eatFood(const pair<int, int>& nextPosition)
-{
-    setPlayBoardCell(nextPosition.first,
-                     nextPosition.second,
-                     static_cast<char>(PlayBoardCell::SnakeBody));
-
-    m_snakeBody.push_front(nextPosition);
-}
-
-void GameModel::move(const pair<int, int>& nextPosition)
-{
-    auto tail{ m_snakeBody.back() };
-
-    // 删除尾巴
-    setPlayBoardCell(tail.first, tail.second, static_cast<char>(PlayBoardCell::Nothing));
-    m_snakeBody.pop_back();
-
-    setPlayBoardCell(nextPosition.first,
-                     nextPosition.second,
-                     static_cast<char>(PlayBoardCell::SnakeBody));
-    m_snakeBody.push_front(nextPosition);
-}
-
-void GameModel::increaseBody(const pair<int, int>& nextPosition)
+void GameModel::increaseSnakeBody(const pair<int, int>& nextPosition)
 {
     m_snakeBody.push_front(nextPosition);
 }
@@ -91,7 +34,6 @@ pair<int, int> GameModel::getNextPosition(int rowStep, int colStep) const
     return make_pair(currentHeadRow + rowStep, currentHeadCol + colStep);
 }
 
-//判断游戏是否已经结束了
 bool GameModel::isGameOver(int goToRow, int goToCol) const
 {
     // goToRow goToCol 是蛇的头打算要去的目的地
@@ -99,26 +41,61 @@ bool GameModel::isGameOver(int goToRow, int goToCol) const
     // 比如超出了游戏界面（下标越界）
     // 比如撞到了蛇的身体
 
-    return (goToRow < 0 || goToRow >= getRow() || goToCol < 0 || goToCol >= getCol()
-            || getPlayBoardCell(goToRow, goToCol) == static_cast<char>(PlayBoardCell::SnakeBody));
+    return (goToRow < 0 || goToRow >= m_playBoard.size() || goToCol < 0
+            || goToCol >= m_playBoard.at(0).size()
+            || playBoardCell(goToRow, goToCol) == static_cast<char>(PlayBoardCell::SnakeBody));
 }
 
-const vector<vector<char>>& GameModel::getPlayBoard() const
+bool GameModel::existFood(int row, int col) const
 {
-    return m_playBoard;
+    return playBoardCell(row, col) == static_cast<char>(PlayBoardCell::Food);
 }
 
-const pair<int, int>& GameModel::getSnakeHead() const
+void GameModel::eatFood(const pair<int, int>& nextPosition)
 {
-    return m_snakeBody.front();
+    setPlayBoardCell(nextPosition.first,
+                     nextPosition.second,
+                     static_cast<char>(PlayBoardCell::SnakeBody));
+
+    m_snakeBody.push_front(nextPosition);
 }
 
-const list<pair<int, int>>& GameModel::getSnakeBody() const
+void GameModel::createFood()
 {
-    return m_snakeBody;
+    // 生成一个新的食物给蛇来吃
+    // 随机生成一个新的位置，但是这个位置可能已经是蛇的身体了
+    // 所以，需要用一个循环不断的重复在一个新生成的随机位置放置食物
+    // 直到放置成功为止
+    default_random_engine gen(chrono::system_clock::now().time_since_epoch().count());
+    uniform_int_distribution<int> rowDist(0, m_playBoard.size() - 1);
+    uniform_int_distribution<int> colDist(0, m_playBoard.at(0).size() - 1);
+
+    while (true) {
+        int row{ rowDist(gen) };
+        int col{ colDist(gen) };
+
+        if (playBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
+            setPlayBoardCell(row, col, static_cast<char>(PlayBoardCell::Food));
+            break;
+        }
+    }
 }
 
-char GameModel::getPlayBoardCell(int row, int col) const
+void GameModel::moveTo(const pair<int, int>& nextPosition)
+{
+    auto tail{ m_snakeBody.back() };
+
+    // 删除尾巴
+    setPlayBoardCell(tail.first, tail.second, static_cast<char>(PlayBoardCell::Nothing));
+    m_snakeBody.pop_back();
+
+    setPlayBoardCell(nextPosition.first,
+                     nextPosition.second,
+                     static_cast<char>(PlayBoardCell::SnakeBody));
+    m_snakeBody.push_front(nextPosition);
+}
+
+char GameModel::playBoardCell(int row, int col) const
 {
     return m_playBoard.at(row).at(col);
 }

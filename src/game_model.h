@@ -10,29 +10,22 @@ enum class PlayBoardCell { Nothing = '0', SnakeBody = '1', Food = '2' };
 class GameModel
 {
 public:
-    size_t getRow() const;
-    size_t getCol() const;
-    void addRow(const std::vector<char>& row);
+    const std::vector<std::vector<char>>& playBoard() const;
+    void appendToPlayBoard(const std::vector<char>& row);
+    const std::list<std::pair<int, int>>& snakeBody() const;
+    void increaseSnakeBody(const std::pair<int, int>& nextPosition);
 
-    void createFood();
-    bool canPutFoodAt(int row, int col);
-    bool existFood(int row, int col) const;
-
-    void eatFood(const std::pair<int, int>& nextPosition);
-    void move(const std::pair<int, int>& nextPosition);
-    void increaseBody(const std::pair<int, int>& nextPosition);
     // 计算蛇的头要去的新坐标
     std::pair<int, int> getNextPosition(int rowStep, int colStep) const;
-
     //撞到墙壁或者蛇自己的身体就结束游戏
-    bool isGameOver(int go_to_row, int go_to_col) const;
-
-    const std::vector<std::vector<char>>& getPlayBoard() const;
-    const std::pair<int, int>& getSnakeHead() const;
-    const std::list<std::pair<int, int>>& getSnakeBody() const;
+    bool isGameOver(int goToRow, int goToCol) const;
+    bool existFood(int row, int col) const;
+    void eatFood(const std::pair<int, int>& nextPosition);
+    void createFood();
+    void moveTo(const std::pair<int, int>& nextPosition);
 
 private:
-    char getPlayBoardCell(int row, int col) const;
+    char playBoardCell(int row, int col) const;
     void setPlayBoardCell(int row, int col, char value);
 
     std::vector<std::vector<char>> m_playBoard; // 整个游戏的数据（二维数组）
