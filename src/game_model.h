@@ -29,8 +29,6 @@ public:
     const std::list<std::pair<int, int>>& snakeBody() const;
 
 private:
-    size_t playBoardRow() const;
-    size_t playBoardCol() const;
     char playBoardCell(int row, int col) const;
     void setPlayBoardCell(int row, int col, char value);
 

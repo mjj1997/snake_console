@@ -106,14 +106,10 @@ const list<pair<int, int>>& GameModel::snakeBody() const
     return m_snakeBody;
 }
 
-size_t GameModel::playBoardRow() const
 {
-    return m_playBoard.size();
 }
 
-size_t GameModel::playBoardCol() const
 {
-    return m_playBoard.at(0).size();
 }
 
 char GameModel::playBoardCell(int row, int col) const
