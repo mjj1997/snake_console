@@ -74,18 +74,10 @@ void GameModel::createFood()
         int row{ rowDist(gen) };
         int col{ colDist(gen) };
 
-        if (canPutFoodAt(row, col))
+        if (playBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
+            setPlayBoardCell(row, col, static_cast<char>(PlayBoardCell::Food));
             break;
-    }
-}
-
-bool GameModel::canPutFoodAt(int row, int col)
-{
-    if (playBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
-        setPlayBoardCell(row, col, static_cast<char>(PlayBoardCell::Food));
-        return true;
-    } else {
-        return false;
+        }
     }
 }
 
