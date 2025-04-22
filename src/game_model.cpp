@@ -49,6 +49,11 @@ bool GameModel::canPutFoodAt(int row, int col)
     }
 }
 
+bool GameModel::existFood(int row, int col) const
+{
+    return getPlayBoardCell(row, col) == static_cast<char>(PlayBoardCell::Food);
+}
+
 void GameModel::eatFood(const pair<int, int>& nextPosition)
 {
     setPlayBoardCell(nextPosition.first,

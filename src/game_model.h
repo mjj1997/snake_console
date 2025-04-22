@@ -16,6 +16,8 @@ public:
 
     void createFood();
     bool canPutFoodAt(int row, int col);
+    bool existFood(int row, int col) const;
+
     void eatFood(const std::pair<int, int>& nextPosition);
     void move(const std::pair<int, int>& nextPosition);
     // 计算蛇的头要去的新坐标
