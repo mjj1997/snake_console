@@ -80,7 +80,7 @@ bool GameController::goAhead(int rowStep, int columnStep)
         m_model.createFood();
     } else {
         // 如果 nextPosition 处没有食物，就移动蛇的身体
-        m_model.move(nextPosition);
+        m_model.moveTo(nextPosition);
     }
 
     return true;

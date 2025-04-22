@@ -22,7 +22,7 @@ public:
     bool existFood(int row, int col) const;
     void eatFood(const std::pair<int, int>& nextPosition);
     void createFood();
-    void move(const std::pair<int, int>& nextPosition);
+    void moveTo(const std::pair<int, int>& nextPosition);
 
 private:
     char playBoardCell(int row, int col) const;

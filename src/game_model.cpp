@@ -81,7 +81,7 @@ void GameModel::createFood()
     }
 }
 
-void GameModel::move(const pair<int, int>& nextPosition)
+void GameModel::moveTo(const pair<int, int>& nextPosition)
 {
     auto tail{ m_snakeBody.back() };
 
