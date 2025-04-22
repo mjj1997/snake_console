@@ -44,8 +44,8 @@ void GameView::play()
 void GameView::printGame() const
 {
     auto board{ m_controller.getPlayBoard() };
-    auto head{ m_controller.getSnakeHead() };
     auto body{ m_controller.getSnakeBody() };
+    auto head{ body.front() };
 
     for (size_t row{ 0 }; row < board.size(); ++row) {
         for (size_t col{ 0 }; col < board.at(row).size(); ++col) {

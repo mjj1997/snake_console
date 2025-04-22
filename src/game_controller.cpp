@@ -92,11 +92,6 @@ const vector<vector<char>>& GameController::getPlayBoard() const
     return m_model.playBoard();
 }
 
-const pair<int, int>& GameController::getSnakeHead() const
-{
-    return m_model.snakeHead();
-}
-
 const list<pair<int, int>>& GameController::getSnakeBody() const
 {
     return m_model.snakeBody();

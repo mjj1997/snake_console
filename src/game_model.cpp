@@ -98,9 +98,7 @@ const vector<vector<char>>& GameModel::playBoard() const
     return m_playBoard;
 }
 
-const pair<int, int>& GameModel::snakeHead() const
 {
-    return m_snakeBody.front();
 }
 
 const list<pair<int, int>>& GameModel::snakeBody() const

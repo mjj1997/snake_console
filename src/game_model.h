@@ -26,7 +26,6 @@ public:
     bool isGameOver(int go_to_row, int go_to_col) const;
 
     const std::vector<std::vector<char>>& playBoard() const;
-    const std::pair<int, int>& snakeHead() const;
     const std::list<std::pair<int, int>>& snakeBody() const;
 
 private:
