@@ -82,11 +82,6 @@ void GameModel::increaseBody(const pair<int, int>& nextPosition)
     m_snakeBody.push_front(nextPosition);
 }
 
-const list<pair<int, int>>& GameModel::getSnakeBody() const
-{
-    return m_snakeBody;
-}
-
 // 根据蛇头当前的位置，以及一个移动的向量 (rowStep,colStep)
 // 得到蛇头部打算要去的新目的地的坐标
 pair<int, int> GameModel::getNextPosition(int rowStep, int colStep) const
@@ -106,6 +101,21 @@ bool GameModel::isGameOver(int goToRow, int goToCol) const
 
     return (goToRow < 0 || goToRow >= getRow() || goToCol < 0 || goToCol >= getCol()
             || getPlayBoardCell(goToRow, goToCol) == static_cast<char>(PlayBoardCell::SnakeBody));
+}
+
+const vector<vector<char>>& GameModel::getPlayBoard() const
+{
+    return m_playBoard;
+}
+
+const pair<int, int>& GameModel::getSnakeHead() const
+{
+    return m_snakeBody.front();
+}
+
+const list<pair<int, int>>& GameModel::getSnakeBody() const
+{
+    return m_snakeBody;
 }
 
 char GameModel::getPlayBoardCell(int row, int col) const
