@@ -50,13 +50,13 @@ bool GameController::goAhead(char direction)
     case 'W':
         rowStep = -1;
         break;
-    case 'A':
+    case 'S':
         rowStep = +1;
         break;
     case 'D':
         colStep = +1;
         break;
-    case 'S':
+    case 'A':
         colStep = -1;
         break;
     default:
