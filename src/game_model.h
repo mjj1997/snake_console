@@ -14,6 +14,8 @@ public:
     size_t getCol() const;
     void addRow(const std::vector<char>& row);
 
+    void createFood();
+    bool canPutFoodAt(int row, int col);
     void move(const std::pair<int, int>& nextPosition);
     // 计算蛇的头要去的新坐标
     std::pair<int, int> getNextPosition(int rowStep, int colStep) const;

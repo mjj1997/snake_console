@@ -1,5 +1,8 @@
 #include "game_model.h"
 
+#include <chrono>
+#include <random>
+
 using namespace std;
 
 size_t GameModel::getRow() const
@@ -15,6 +18,35 @@ size_t GameModel::getCol() const
 void GameModel::addRow(const vector<char>& row)
 {
     m_playBoard.push_back(row);
+}
+
+void GameModel::createFood()
+{
+    // 生成一个新的食物给蛇来吃
+    // 随机生成一个新的位置，但是这个位置可能已经是蛇的身体了
+    // 所以，需要用一个循环不断的重复在一个新生成的随机位置放置食物
+    // 直到放置成功为止
+    default_random_engine gen(chrono::system_clock::now().time_since_epoch().count());
+    uniform_int_distribution<int> rowDist(0, getRow() - 1);
+    uniform_int_distribution<int> colDist(0, getCol() - 1);
+
+    while (true) {
+        int row{ rowDist(gen) };
+        int col{ colDist(gen) };
+
+        if (canPutFoodAt(row, col))
+            break;
+    }
+}
+
+bool GameModel::canPutFoodAt(int row, int col)
+{
+    if (getPlayBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
+        setPlayBoardCell(row, col, static_cast<char>(PlayBoardCell::Food));
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void GameModel::move(const pair<int, int>& nextPosition)
