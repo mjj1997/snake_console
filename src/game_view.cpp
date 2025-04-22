@@ -21,7 +21,7 @@ void GameView::play()
 {
     while (true) {
         // 系统调用：清屏
-        system("cls");
+        system("clear");
         //输出游戏界面：棋盘
         printGame();
 
