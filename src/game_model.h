@@ -5,7 +5,7 @@
 #include <vector>
 
 // 游戏的任意位置 只有三种情况：什么也没有；蛇的身体；食物
-enum class PlayBoardCell { Nothing, SnakeBody, Food };
+enum class PlayBoardCell { Nothing = '0', SnakeBody = '1', Food = '2' };
 
 class GameModel
 {
