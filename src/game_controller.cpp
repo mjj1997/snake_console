@@ -30,10 +30,10 @@ bool GameController::loadPlayDataFromFile(ifstream& fin)
             }
         }
 
-        m_model.addRow(lineData);
+        m_model.appendToPlayBoard(lineData);
     }
 
-    if (m_model.getSnakeBody().empty()) {
+    if (getSnakeBody().empty()) {
         cout << "snake body is empty! init game failed." << endl;
         return false;
     }
@@ -89,15 +89,15 @@ bool GameController::goAhead(int rowStep, int columnStep)
 
 const vector<vector<char>>& GameController::getPlayBoard() const
 {
-    return m_model.getPlayBoard();
+    return m_model.playBoard();
 }
 
 const pair<int, int>& GameController::getSnakeHead() const
 {
-    return m_model.getSnakeHead();
+    return m_model.snakeHead();
 }
 
 const list<pair<int, int>>& GameController::getSnakeBody() const
 {
-    return m_model.getSnakeBody();
+    return m_model.snakeBody();
 }

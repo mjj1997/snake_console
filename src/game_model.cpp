@@ -5,17 +5,7 @@
 
 using namespace std;
 
-size_t GameModel::getRow() const
-{
-    return m_playBoard.size();
-}
-
-size_t GameModel::getCol() const
-{
-    return m_playBoard.at(0).size();
-}
-
-void GameModel::addRow(const vector<char>& row)
+void GameModel::appendToPlayBoard(const vector<char>& row)
 {
     m_playBoard.push_back(row);
 }
@@ -27,8 +17,8 @@ void GameModel::createFood()
     // 所以，需要用一个循环不断的重复在一个新生成的随机位置放置食物
     // 直到放置成功为止
     default_random_engine gen(chrono::system_clock::now().time_since_epoch().count());
-    uniform_int_distribution<int> rowDist(0, getRow() - 1);
-    uniform_int_distribution<int> colDist(0, getCol() - 1);
+    uniform_int_distribution<int> rowDist(0, playBoardRow() - 1);
+    uniform_int_distribution<int> colDist(0, playBoardCol() - 1);
 
     while (true) {
         int row{ rowDist(gen) };
@@ -41,7 +31,7 @@ void GameModel::createFood()
 
 bool GameModel::canPutFoodAt(int row, int col)
 {
-    if (getPlayBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
+    if (playBoardCell(row, col) == static_cast<char>(PlayBoardCell::Nothing)) {
         setPlayBoardCell(row, col, static_cast<char>(PlayBoardCell::Food));
         return true;
     } else {
@@ -51,7 +41,7 @@ bool GameModel::canPutFoodAt(int row, int col)
 
 bool GameModel::existFood(int row, int col) const
 {
-    return getPlayBoardCell(row, col) == static_cast<char>(PlayBoardCell::Food);
+    return playBoardCell(row, col) == static_cast<char>(PlayBoardCell::Food);
 }
 
 void GameModel::eatFood(const pair<int, int>& nextPosition)
@@ -99,26 +89,36 @@ bool GameModel::isGameOver(int goToRow, int goToCol) const
     // 比如超出了游戏界面（下标越界）
     // 比如撞到了蛇的身体
 
-    return (goToRow < 0 || goToRow >= getRow() || goToCol < 0 || goToCol >= getCol()
-            || getPlayBoardCell(goToRow, goToCol) == static_cast<char>(PlayBoardCell::SnakeBody));
+    return (goToRow < 0 || goToRow >= playBoardRow() || goToCol < 0 || goToCol >= playBoardCol()
+            || playBoardCell(goToRow, goToCol) == static_cast<char>(PlayBoardCell::SnakeBody));
 }
 
-const vector<vector<char>>& GameModel::getPlayBoard() const
+const vector<vector<char>>& GameModel::playBoard() const
 {
     return m_playBoard;
 }
 
-const pair<int, int>& GameModel::getSnakeHead() const
+const pair<int, int>& GameModel::snakeHead() const
 {
     return m_snakeBody.front();
 }
 
-const list<pair<int, int>>& GameModel::getSnakeBody() const
+const list<pair<int, int>>& GameModel::snakeBody() const
 {
     return m_snakeBody;
 }
 
-char GameModel::getPlayBoardCell(int row, int col) const
+size_t GameModel::playBoardRow() const
+{
+    return m_playBoard.size();
+}
+
+size_t GameModel::playBoardCol() const
+{
+    return m_playBoard.at(0).size();
+}
+
+char GameModel::playBoardCell(int row, int col) const
 {
     return m_playBoard.at(row).at(col);
 }

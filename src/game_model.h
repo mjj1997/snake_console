@@ -10,9 +10,7 @@ enum class PlayBoardCell { Nothing = '0', SnakeBody = '1', Food = '2' };
 class GameModel
 {
 public:
-    size_t getRow() const;
-    size_t getCol() const;
-    void addRow(const std::vector<char>& row);
+    void appendToPlayBoard(const std::vector<char>& row);
 
     void createFood();
     bool canPutFoodAt(int row, int col);
@@ -27,12 +25,14 @@ public:
     //撞到墙壁或者蛇自己的身体就结束游戏
     bool isGameOver(int go_to_row, int go_to_col) const;
 
-    const std::vector<std::vector<char>>& getPlayBoard() const;
-    const std::pair<int, int>& getSnakeHead() const;
-    const std::list<std::pair<int, int>>& getSnakeBody() const;
+    const std::vector<std::vector<char>>& playBoard() const;
+    const std::pair<int, int>& snakeHead() const;
+    const std::list<std::pair<int, int>>& snakeBody() const;
 
 private:
-    char getPlayBoardCell(int row, int col) const;
+    size_t playBoardRow() const;
+    size_t playBoardCol() const;
+    char playBoardCell(int row, int col) const;
     void setPlayBoardCell(int row, int col, char value);
 
     std::vector<std::vector<char>> m_playBoard; // 整个游戏的数据（二维数组）
