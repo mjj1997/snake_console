@@ -26,7 +26,7 @@ bool GameController::loadPlayDataFromFile(ifstream& fin)
         while (lineDataIss >> ch) {
             lineData.push_back(ch);
             if (ch == static_cast<char>(PlayBoardCell::SnakeBody)) {
-                m_model.increaseBody(make_pair(row, lineData.size() - 1));
+                m_model.increaseSnakeBody(make_pair(row, lineData.size() - 1));
             }
         }
 
@@ -78,7 +78,6 @@ bool GameController::goAhead(int rowStep, int columnStep)
     if (m_model.existFood(nextPosition.first, nextPosition.second)) {
         m_model.eatFood(nextPosition);
         m_model.createFood();
-
     } else {
         // 如果 nextPosition 处没有食物，就移动蛇的身体
         m_model.move(nextPosition);

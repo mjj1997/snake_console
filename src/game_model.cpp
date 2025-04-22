@@ -67,7 +67,7 @@ void GameModel::move(const pair<int, int>& nextPosition)
     m_snakeBody.push_front(nextPosition);
 }
 
-void GameModel::increaseBody(const pair<int, int>& nextPosition)
+void GameModel::increaseSnakeBody(const pair<int, int>& nextPosition)
 {
     m_snakeBody.push_front(nextPosition);
 }

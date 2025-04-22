@@ -11,6 +11,7 @@ class GameModel
 {
 public:
     void appendToPlayBoard(const std::vector<char>& row);
+    void increaseSnakeBody(const std::pair<int, int>& nextPosition);
 
     void createFood();
     bool canPutFoodAt(int row, int col);
@@ -18,7 +19,6 @@ public:
 
     void eatFood(const std::pair<int, int>& nextPosition);
     void move(const std::pair<int, int>& nextPosition);
-    void increaseBody(const std::pair<int, int>& nextPosition);
     // 计算蛇的头要去的新坐标
     std::pair<int, int> getNextPosition(int rowStep, int colStep) const;
 
