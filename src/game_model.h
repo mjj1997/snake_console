@@ -21,12 +21,15 @@ public:
     void eatFood(const std::pair<int, int>& nextPosition);
     void move(const std::pair<int, int>& nextPosition);
     void increaseBody(const std::pair<int, int>& nextPosition);
-    const std::list<std::pair<int, int>>& getSnakeBody() const;
     // 计算蛇的头要去的新坐标
     std::pair<int, int> getNextPosition(int rowStep, int colStep) const;
 
     //撞到墙壁或者蛇自己的身体就结束游戏
     bool isGameOver(int go_to_row, int go_to_col) const;
+
+    const std::vector<std::vector<char>>& getPlayBoard() const;
+    const std::pair<int, int>& getSnakeHead() const;
+    const std::list<std::pair<int, int>>& getSnakeBody() const;
 
 private:
     char getPlayBoardCell(int row, int col) const;

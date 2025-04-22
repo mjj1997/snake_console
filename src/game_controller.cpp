@@ -86,3 +86,18 @@ bool GameController::goAhead(int rowStep, int columnStep)
 
     return true;
 }
+
+const vector<vector<char>>& GameController::getPlayBoard() const
+{
+    return m_model.getPlayBoard();
+}
+
+const pair<int, int>& GameController::getSnakeHead() const
+{
+    return m_model.getSnakeHead();
+}
+
+const list<pair<int, int>>& GameController::getSnakeBody() const
+{
+    return m_model.getSnakeBody();
+}

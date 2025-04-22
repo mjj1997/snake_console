@@ -1,7 +1,10 @@
 #include "game_view.h"
 
+#include <cassert>
 #include <fstream>
 #include <iostream>
+
+using namespace std;
 
 bool GameView::loadPlayDataFromFile(const std::string& fileName)
 {
@@ -20,7 +23,7 @@ void GameView::play()
         // 系统调用：清屏
         system("cls");
         //输出游戏界面：棋盘
-        printMatrix();
+        printGame();
 
         std::cout << "direction: W(up) A(left) S(down) D(right)\n"
                   << "$: food\n"
@@ -38,7 +41,34 @@ void GameView::play()
     }
 }
 
-// TODO: complete this function
-void GameView::printMatrix() const
+void GameView::printGame() const
 {
+    // m_controller.m_model.showBoardForTest(std::cout);
+
+    auto board{ m_controller.getPlayBoard() };
+    auto head{ m_controller.getSnakeHead() };
+    auto body{ m_controller.getSnakeBody() };
+
+    for (size_t row{ 0 }; row < board.size(); ++row) {
+        for (size_t col{ 0 }; col < board.at(row).size(); ++col) {
+            auto element = board.at(row).at(col);
+
+            if (row == head.first && col == head.second) {
+                cout << "@" << " ";
+            } else if (element == static_cast<char>(PlayBoardCell::Food)) {
+                //打印食物，内存中的 '2' 打印成 $
+                cout << "$" << " ";
+            } else if (element == static_cast<char>(PlayBoardCell::Nothing)) {
+                //打印空白，内存中的 '0' 打印成 '_'
+                cout << "_" << " ";
+            } else if (element == static_cast<char>(PlayBoardCell::SnakeBody)) {
+                // snake body
+                cout << "#" << " ";
+            } else {
+                assert(false);
+            }
+        }
+
+        cout << endl;
+    }
 }

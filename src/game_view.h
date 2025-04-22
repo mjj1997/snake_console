@@ -19,7 +19,7 @@ private:
     // '$'  <== '2'
     // '#'  <== '1'
     // '@'  <== '1'
-    void printMatrix() const;
+    void printGame() const;
 
 private:
     GameController m_controller;
