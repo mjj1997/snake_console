@@ -77,6 +77,16 @@ void GameModel::move(const pair<int, int>& nextPosition)
     m_snakeBody.push_front(nextPosition);
 }
 
+void GameModel::increaseBody(const pair<int, int>& nextPosition)
+{
+    m_snakeBody.push_front(nextPosition);
+}
+
+const list<pair<int, int>>& GameModel::getSnakeBody() const
+{
+    return m_snakeBody;
+}
+
 // 根据蛇头当前的位置，以及一个移动的向量 (rowStep,colStep)
 // 得到蛇头部打算要去的新目的地的坐标
 pair<int, int> GameModel::getNextPosition(int rowStep, int colStep) const
